@@ -18,7 +18,6 @@ class CharacterDetailsViewController: BaseViewController, Storyboarded {
     @IBOutlet weak var statusLabel: UILabel!
 
     //MARK: Variables
-    weak var mainCoordinate: MainCoordinator?
     var viewModel: CharacterDetailsViewModel?
     var selectedCharacterId: Int = 0
 
@@ -82,6 +81,6 @@ class CharacterDetailsViewController: BaseViewController, Storyboarded {
 
     //MARK: Actions
     @objc private func navigationControllerPopAction()  {
-        mainCoordinate?.popViewController()
+        viewModel?.popViewController()
     }
 }

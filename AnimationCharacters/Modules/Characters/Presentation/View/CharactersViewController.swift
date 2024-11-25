@@ -14,7 +14,6 @@ class CharactersViewController: BaseViewController, Storyboarded {
     @IBOutlet weak var charactersTableView: UITableView!
 
     //MARK: Variables
-    weak var mainCoordinate: MainCoordinator?
     var viewModel: CharactersViewModel?
     var characters: [CharacterModelItem] = []
 
@@ -114,7 +113,7 @@ extension CharactersViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let character = characters[indexPath.row]
-        mainCoordinate?.navigateToCharacterDetails(id: character.id)
+        viewModel?.pushtoDetailsView(characterID: character.id)
     }
 }
 

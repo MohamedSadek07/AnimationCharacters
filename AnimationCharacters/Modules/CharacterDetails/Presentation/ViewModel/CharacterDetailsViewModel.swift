@@ -13,13 +13,15 @@ import Combine
 class CharacterDetailsViewModel {
     //MARK: Variables
     private let characterDetailsUseCase: CharacterDetailsUseCaseProtocol
+    private let mainCoordinator: MainCoordinator
     private var cancelable: Set<AnyCancellable> = []
     var isLoading = Bindable(false)
     var errorMessage = Bindable(String())
     var characterDetails = Bindable(CharacterModelItem())
     //MARK: - Init
-    init(characterDetailsUseCase: CharacterDetailsUseCaseProtocol) {
+    init(characterDetailsUseCase: CharacterDetailsUseCaseProtocol, mainCoordinator: MainCoordinator) {
         self.characterDetailsUseCase = characterDetailsUseCase
+        self.mainCoordinator = mainCoordinator
     }
 }
 
@@ -52,6 +54,10 @@ extension CharacterDetailsViewModel: CharactersDetailsViewModelProtocol {
         } else {
             Log.error("Invalid character id")
         }
+    }
+
+    func popViewController() {
+        mainCoordinator.popViewController()
     }
 }
 

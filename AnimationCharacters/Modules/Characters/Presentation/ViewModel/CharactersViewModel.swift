@@ -12,6 +12,7 @@ import Combine
 class CharactersViewModel {
     //MARK: Variables
     private let charactersUseCase: CharactersUseCaseProtocol
+    private let mainCoordinator: MainCoordinator
     private var cancelable: Set<AnyCancellable> = []
     var characters = Bindable([CharacterModelItem]())
     var isLoading = Bindable(false)
@@ -21,8 +22,9 @@ class CharactersViewModel {
     var isFilterApplied = false
     var currentStatus = ""
     //MARK: - Init
-    init(charactersUseCase: CharactersUseCaseProtocol) {
+    init(charactersUseCase: CharactersUseCaseProtocol, mainCoordinator: MainCoordinator) {
         self.charactersUseCase = charactersUseCase
+        self.mainCoordinator = mainCoordinator
     }
 }
 
@@ -77,5 +79,9 @@ extension CharactersViewModel: CharactersViewModelProtocol {
         pageNumber = 1
         returnedPagesCount = 0
         characters.value.removeAll()
+    }
+
+    func pushtoDetailsView(characterID: Int) {
+        mainCoordinator.navigateToCharacterDetails(id: characterID)
     }
 }

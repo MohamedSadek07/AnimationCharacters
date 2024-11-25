@@ -9,4 +9,5 @@ import Foundation
 
 protocol CharactersDetailsViewModelProtocol {
     func getCharacterDetails(id: Int)
+    func popViewController()
 }

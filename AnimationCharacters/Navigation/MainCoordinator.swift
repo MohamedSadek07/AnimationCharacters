@@ -21,11 +21,11 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
         // Initialize Dependencies
         let remoteRepo = CharactersRemoteRepository()
         let charactersUseCase = CharactersUseCase(remoteCharactersRepo: remoteRepo)
-        let viewModel = CharactersViewModel(charactersUseCase: charactersUseCase)
+        let viewModel = CharactersViewModel(charactersUseCase: charactersUseCase,
+                                            mainCoordinator: self)
         let charactersVC = CharactersViewController.instantiate(main)
         // Passing Dependencies
         charactersVC.viewModel = viewModel
-        charactersVC.mainCoordinate = self
         navigationController.pushViewController(charactersVC, animated: true)
     }
 
@@ -33,11 +33,10 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
         // Initialize Dependencies
         let remoteRepo = CharacterDetailsRemoteRepository()
         let characterDetailsUseCase = CharacterDetailsUseCase(remoteCharacterDetailsRepo: remoteRepo)
-        let viewModel = CharacterDetailsViewModel(characterDetailsUseCase: characterDetailsUseCase)
+        let viewModel = CharacterDetailsViewModel(characterDetailsUseCase: characterDetailsUseCase, mainCoordinator: self)
         let charcterDetailsVC = CharacterDetailsViewController.instantiate(main)
         // Passing Dependencies & variables
         charcterDetailsVC.viewModel = viewModel
-        charcterDetailsVC.mainCoordinate = self
         charcterDetailsVC.selectedCharacterId = id
         navigationController.pushViewController(charcterDetailsVC, animated: true)
     }

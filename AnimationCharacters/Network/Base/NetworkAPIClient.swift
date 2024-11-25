@@ -20,7 +20,6 @@ final class NetworkAPIClient: NetworkAPIClientProtocol {
         self.session = session
     }
     func request<R: Codable>(request: URLRequest, mapToModel: R.Type) -> AnyPublisher<R, NetworkError> {
-        print("[\(request.httpMethod?.uppercased() ?? "")] '\(request.url!)'")
         Log.info(request.httpMethod?.description ?? "")
         Log.info(request.url?.description ?? "")
         Log.info(String(data: request.httpBody ?? Data(), encoding: .utf8) ?? "")

@@ -11,4 +11,5 @@ protocol CharactersViewModelProtocol {
     func getCharacters()
     func filterCharacters(status: String)
     func resetPaginationAttributes()
+    func pushtoDetailsView(characterID: Int)
 }
