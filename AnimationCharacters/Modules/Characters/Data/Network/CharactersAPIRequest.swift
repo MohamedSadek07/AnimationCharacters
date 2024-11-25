@@ -9,6 +9,7 @@ import Foundation
 
 enum CharactersAPIRequest {
     case getCharacters(body: CharactersRequestModel)
+    case filterCharacters(body: FilterCharactersRequestModel)
 }
 
 extension CharactersAPIRequest: NetworkRequest {
@@ -17,7 +18,10 @@ extension CharactersAPIRequest: NetworkRequest {
   }
 
   var path: String {
-      return Constants.Network.baseURL + "/character"
+      switch self {
+      case .getCharacters, .filterCharacters:
+          return Constants.Network.baseURL + "/character"
+      }
   }
 
   var parameters: Parameters? {
@@ -31,6 +35,8 @@ extension CharactersAPIRequest: NetworkRequest {
   var queryParams: [String : Any]? {
       switch self {
       case let .getCharacters(body):
+          return body.asDictionary
+      case let .filterCharacters(body):
           return body.asDictionary
       }
   }

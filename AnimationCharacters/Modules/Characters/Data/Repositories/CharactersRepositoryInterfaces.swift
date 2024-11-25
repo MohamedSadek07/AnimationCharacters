@@ -10,4 +10,5 @@ import Combine
 
 protocol CharactersRemoteRepositoryProtocol: AnyObject {
     func getCharactersList(with body: CharactersRequestModel) -> AnyPublisher<CharactersResponseModel, NetworkError>
+    func filterCharactersByStatus(with body: FilterCharactersRequestModel) -> AnyPublisher<CharactersResponseModel, NetworkError>
 }

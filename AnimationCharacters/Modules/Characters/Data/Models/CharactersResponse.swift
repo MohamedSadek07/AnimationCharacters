@@ -8,6 +8,6 @@
 import Foundation
 
 struct CharactersResponse {
-   var characters: [CharacterModelItem]
-   var pagesCount: Int
+   let characters: [CharacterModelItem]
+   let pagesCount: Int
 }

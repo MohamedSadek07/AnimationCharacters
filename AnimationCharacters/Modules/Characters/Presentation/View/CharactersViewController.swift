@@ -21,10 +21,14 @@ class CharactersViewController: BaseViewController, Storyboarded {
     //MARK: LifeCycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Setup Left naviagtion title
         setupNavigationBar()
+        // Register for cell
         charactersTableView.register(UITableViewCell.self, forCellReuseIdentifier: "CharacterCell")
+        // Bind viewModel data
         bindViewModel()
-        viewModel?.getCharacters(page: viewModel?.pageNumber ?? 0)
+        // call getCharacters request
+        viewModel?.getCharacters()
     }
 
     //MARK: Methods
@@ -32,7 +36,7 @@ class CharactersViewController: BaseViewController, Storyboarded {
           let titleLabel = UILabel()
           titleLabel.text = "Characters"
           titleLabel.font = UIFont.systemFont(ofSize: 28, weight: .bold)
-          titleLabel.textColor = .black
+          titleLabel.textColor = #colorLiteral(red: 0.149933666, green: 0, blue: 0.2669309676, alpha: 1)
 
           let leftBarButtonItem = UIBarButtonItem(customView: titleLabel)
           navigationItem.leftBarButtonItem = leftBarButtonItem
@@ -41,8 +45,10 @@ class CharactersViewController: BaseViewController, Storyboarded {
     private func bindViewModel() {
         viewModel?.characters.bind {[weak self] (data) in
             guard let self = self else {return}
-            self.characters = data
-            self.charactersTableView.reloadData()
+            if !data.isEmpty {
+                self.characters = data
+                self.charactersTableView.reloadData()
+            }
         }
 
         viewModel?.isLoading.bind {[weak self] isLoading in
@@ -57,13 +63,21 @@ class CharactersViewController: BaseViewController, Storyboarded {
         viewModel?.errorMessage.bind {[weak self] message in
             guard let self = self else {return}
             if message.count > 0 {
-               AlertUtility.showAlert(title: "Success", message: message, VC: self)
+                AlertUtility.showAlert(title: "Success", message: message, VC: self)
             }
         }
     }
 
 
     //MARK: Actions
+    @IBAction func filterButtonsTapped(_ sender: UIButton) {
+        let tag = sender.tag
+        viewModel?.resetPaginationAttributes()
+        viewModel?.isFilterApplied = true
+        let status = FilterStatuses(rawValue: tag)?.returnString() ?? ""
+        viewModel?.currentStatus = status
+        viewModel?.filterCharacters(status: status)
+    }
 }
 
 /// TableView Extension
@@ -103,11 +117,17 @@ extension CharactersViewController: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if let _ = scrollView as? UITableView {
             let bottomEdge = Int(scrollView.contentOffset.y + scrollView.frame.size.height)
+            // check if user scrolled to bottom of the tableView
             if (bottomEdge >= Int(scrollView.contentSize.height)) {
                 if let returnedPagesCount = self.viewModel?.returnedPagesCount, let pageNumber = self.viewModel?.pageNumber {
+                    // check if there are more pages
                     if returnedPagesCount > pageNumber {
                         self.viewModel?.pageNumber += 1
-                        viewModel?.getCharacters(page: viewModel?.pageNumber ?? 0)
+                        if let isFilterApplied = viewModel?.isFilterApplied, isFilterApplied{
+                            viewModel?.filterCharacters(status:  viewModel?.currentStatus ?? "")
+                        } else {
+                            viewModel?.getCharacters()
+                        }
                     }
                 }
             }

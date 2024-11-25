@@ -8,5 +8,7 @@
 import Foundation
 
 protocol CharactersViewModelProtocol {
-      func getCharacters(page: Int)
+    func getCharacters()
+    func filterCharacters(status: String)
+    func resetPaginationAttributes()
 }

@@ -19,4 +19,11 @@ extension CharactersRemoteRepository: CharactersRemoteRepositoryProtocol{
           mapToModel: CharactersResponseModel.self
         )
     }
+
+    func filterCharactersByStatus(with body: FilterCharactersRequestModel) -> AnyPublisher<CharactersResponseModel, NetworkError> {
+        networkApiClient.request(
+            request: CharactersAPIRequest.filterCharacters(body: body).asURLRequest,
+          mapToModel: CharactersResponseModel.self
+        )
+    }
 }
