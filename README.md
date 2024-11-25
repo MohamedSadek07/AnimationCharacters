@@ -6,7 +6,7 @@ Design:
 Base UIIkit app
 SwiftUI Used in smaller views like TableViewCell
 
-Navigation: Used Coordinator
+Navigation: Used Coordinator,
 Architecture: MVVM with Clean Architecture (UseCase & Coordinator)
 
 **Principals and Patterns:**
