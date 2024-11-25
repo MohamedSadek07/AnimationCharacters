@@ -36,10 +36,12 @@ final class NetworkAPIClient: NetworkAPIClientProtocol {
                 } else if httpResponse.statusCode == 401 {
                     Log.error("Unauthorithed  error with code 401: ================ ")
                     throw NetworkError.unAuthorithed
+                } else if httpResponse.statusCode == 1009 || httpResponse.statusCode == 1020 {
+                    throw NetworkError.noInternetConnection
                 } else {
                     if let error = try? JSONDecoder().decode(NetworkErrorResponse.self, from: result.data) {
                         Log.error("Internal error: ================ ")
-                        Log.error(error.error?.messages?.first ?? "")
+                        Log.error(error.error ?? "")
                         throw NetworkError.internalError(error)
 
                     } else {

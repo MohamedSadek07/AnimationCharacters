@@ -63,7 +63,7 @@ class CharactersViewController: BaseViewController, Storyboarded {
         viewModel?.errorMessage.bind {[weak self] message in
             guard let self = self else {return}
             if message.count > 0 {
-                AlertUtility.showAlert(title: "Success", message: message, VC: self)
+                AlertUtility.showAlert(title: "Error", message: message, VC: self)
             }
         }
     }
@@ -90,10 +90,11 @@ extension CharactersViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CharacterCell", for: indexPath)
 
         // Use a SwiftUI view for the row content
-        let item = characters[indexPath.row]
-        let swiftUIView = CharacterCellView(dataSource: CharacterCellViewDataSource(name: item.name,
-            specie: item.specie,
-            imageLink: item.image))
+        let character = characters[indexPath.row]
+        let swiftUIView = CharacterCellView(dataSource: CharacterCellViewDataSource(
+            name: character.name,
+            specie: character.specie,
+            imageLink: character.image))
         let hostingController = UIHostingController(rootView: swiftUIView)
         hostingController.view.translatesAutoresizingMaskIntoConstraints = false
 
@@ -109,6 +110,11 @@ extension CharactersViewController: UITableViewDataSource, UITableViewDelegate {
         ])
 
         return cell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let character = characters[indexPath.row]
+        mainCoordinate?.navigateToCharacterDetails(id: character.id)
     }
 }
 

@@ -29,8 +29,20 @@ class MainCoordinator: NSObject, Coordinator, UINavigationControllerDelegate {
         navigationController.pushViewController(charactersVC, animated: true)
     }
 
+    func navigateToCharacterDetails(id: Int) {
+        // Initialize Dependencies
+        let remoteRepo = CharacterDetailsRemoteRepository()
+        let characterDetailsUseCase = CharacterDetailsUseCase(remoteCharacterDetailsRepo: remoteRepo)
+        let viewModel = CharacterDetailsViewModel(characterDetailsUseCase: characterDetailsUseCase)
+        let charcterDetailsVC = CharacterDetailsViewController.instantiate(main)
+        // Passing Dependencies & variables
+        charcterDetailsVC.viewModel = viewModel
+        charcterDetailsVC.mainCoordinate = self
+        charcterDetailsVC.selectedCharacterId = id
+        navigationController.pushViewController(charcterDetailsVC, animated: true)
+    }
 
-    func navigateToCharacterDetails() {
-        
+    func popViewController() {
+        navigationController.popViewController(animated: true)
     }
 }

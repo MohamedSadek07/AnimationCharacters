@@ -8,13 +8,5 @@
 import Foundation
 
 struct NetworkErrorResponse: Codable {
-    let error: NetworkErrorModel?
-}
-
-struct NetworkErrorModel: Codable {
-    let code: Int?
-    let message: String?
-    let messages: [String]?
-    let date: String?
-    let status: Int?
+    let error: String?
 }

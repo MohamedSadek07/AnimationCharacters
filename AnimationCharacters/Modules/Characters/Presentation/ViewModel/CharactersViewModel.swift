@@ -9,7 +9,7 @@
 import Foundation
 import Combine
 
-class CharactersViewModel: CharactersViewModelProtocol {
+class CharactersViewModel {
     //MARK: Variables
     private let charactersUseCase: CharactersUseCaseProtocol
     private var cancelable: Set<AnyCancellable> = []
@@ -26,7 +26,7 @@ class CharactersViewModel: CharactersViewModelProtocol {
     }
 }
 
-extension CharactersViewModel {
+extension CharactersViewModel: CharactersViewModelProtocol {
     func getCharacters() {
         isLoading.value = true
         let requestModel = CharactersRequestModel(page: self.pageNumber)
@@ -38,7 +38,7 @@ extension CharactersViewModel {
             if case .failure(let error) = result {
                 switch error {
                 case let .internalError(errorResponse):
-                    errorMessage.value = errorResponse.error?.messages?.first ?? ""
+                    errorMessage.value = errorResponse.error ?? ""
                 default:
                     break
                 }
@@ -61,7 +61,7 @@ extension CharactersViewModel {
             if case .failure(let error) = result {
                 switch error {
                 case let .internalError(errorResponse):
-                    errorMessage.value = errorResponse.error?.messages?.first ?? ""
+                    errorMessage.value = errorResponse.error ?? ""
                 default:
                     break
                 }

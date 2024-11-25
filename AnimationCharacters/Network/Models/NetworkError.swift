@@ -10,9 +10,10 @@ import Foundation
 enum NetworkError: Error {
     case normalError(Error)
     case notValidURL
+    case noInternetConnection
     case unAuthorithed
     case requestFailed
-    case internalError(NetworkErrorResponse) // Will be changed according to the base error model
+    case internalError(NetworkErrorResponse)
     case emptyErrorWithStatusCode(String)
     case decodeFailed
 }

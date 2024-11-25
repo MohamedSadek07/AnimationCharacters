@@ -55,7 +55,7 @@ class BorderedButton: UIButton {
         clipsToBounds = true
         if let titleLabel = titleLabel {
         titleLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-        titleLabel.textColor = #colorLiteral(red: 0.149933666, green: 0, blue: 0.2669309676, alpha: 1)
+        titleLabel.textColor = #colorLiteral(red: 0.1490196078, green: 0, blue: 0.2666666667, alpha: 1)
         }
     }
 }
